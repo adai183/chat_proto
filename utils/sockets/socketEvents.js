@@ -4,7 +4,7 @@ exports = module.exports = function(io) {
     socket.join('Lobby');
     socket.on('chat mounted', function(user) {
       // TODO: Does the server need to know the user?
-      console.log(user);
+      console.log(console.log(`${user} joined`));
       socket.emit('receive socket', socket.id)
     })
     socket.on('leave channel', function(channel) {
@@ -14,7 +14,9 @@ exports = module.exports = function(io) {
       socket.join(channel.name)
     })
     socket.on('new message', function(msg) {
-      socket.broadcast.to(msg.channelID).emit('new bc message', msg);
+      console.log(`New message from ${msg.user}:`);
+      console.log(msg);
+      // socket.broadcast.to(msg.channelID).emit('new bc message', msg);
     });
     socket.on('new channel', function(channel) {
       socket.broadcast.emit('new channel', channel)

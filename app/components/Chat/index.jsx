@@ -7,7 +7,7 @@ const user = 'Andy';
 
 class Chat extends Component {
   static propTypes = {
-    socket: PropTypes.object.isRequired,
+    socket: PropTypes.object.isRequired, //eslint-disable-line
   };
   constructor(props, context) {
     super(props, context);
@@ -36,7 +36,7 @@ class Chat extends Component {
     );
     */
   }
-  handleSave(newMessage) {
+  handleSave(newMessage) { // eslint-disable-line
     if (newMessage.text.length !== 0) {
       console.log('New onSave event. When should we save to Mongo?');
       console.log(newMessage);
@@ -47,7 +47,7 @@ class Chat extends Component {
     return (
       <div>
         Chat
-        <MessageComposer socket={socket}  user={user} onSave={::this.handleSave} />
+        <MessageComposer socket={socket} user={user} onSave={::this.handleSave} />
       </div>
     );
   }

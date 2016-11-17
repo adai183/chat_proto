@@ -9,7 +9,7 @@ class MessageComposer extends Component {
   static propTypes = {
     onSave: PropTypes.func.isRequired,
     user: PropTypes.string.isRequired,
-    socket: PropTypes.object.isRequired,
+    socket: PropTypes.object.isRequired, // eslint-disable-line
   };
   constructor(props, context) {
     super(props, context);
@@ -25,12 +25,12 @@ class MessageComposer extends Component {
       event.preventDefault();
       const newMessage = {
         id: `${Date.now()}${uuid.v4()}`,
-        text: text,
-        user: user,
+        text,
+        user,
         time: moment.utc().format('lll'),
       };
       socket.emit('new message', newMessage);
-      socket.emit('stop typing', { user: user });
+      // socket.emit('stop typing', { user });
       this.props.onSave(newMessage);
       this.setState({ text: '', typing: false });
     }
@@ -39,12 +39,12 @@ class MessageComposer extends Component {
     const { socket, user } = this.props;
     this.setState({ text: event.target.value });
     if (event.target.value.length > 0 && !this.state.typing) {
-      socket.emit('typing', { user: user });
-      this.setState({ typing: true});
+      socket.emit('typing', { user });
+      this.setState({ typing: true });
     }
     if (event.target.value.length === 0 && this.state.typing) {
-      socket.emit('stop typing', { user: user });
-      this.setState({ typing: false});
+      socket.emit('stop typing', { user });
+      this.setState({ typing: false });
     }
   }
   render() {

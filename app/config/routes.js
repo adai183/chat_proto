@@ -1,14 +1,18 @@
-import React from 'react'
-import { Router, Route, browserHistory, IndexRoute } from 'react-router'
-import { MainContainer } from 'containers'
-import * as Pages from 'pages'
+import React from 'react';
+import { Router, Route, browserHistory, IndexRoute } from 'react-router';
+import { MainContainer } from 'containers'; // eslint-disable-line
+import * as Pages from 'pages'; // eslint-disable-line
+import { Provider } from 'react-redux';
+import store, { history } from '../store';
 
 const routes = (
-  <Router history={browserHistory}>
-    <Route path='/' component={MainContainer}>
-      <IndexRoute component={Pages.LandingPage} />
-    </Route>
-  </Router>
-)
+  <Provider store={store}>
+    <Router history={history}>
+      <Route path="/" component={MainContainer}>
+        <IndexRoute component={Pages.LandingPage} />
+      </Route>
+    </Router>
+  </Provider>
+);
 
-export default routes
+export default routes;
