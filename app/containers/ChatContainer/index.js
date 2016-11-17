@@ -5,29 +5,41 @@ import { connect } from 'react-redux';
 import io from 'socket.io-client';
 import { Chat } from 'components';  // eslint-disable-line
 import styles from './index.module.css';
+import * as ChatActionCreators from './actions';
 
 
 const socket = io('', { path: '/api/chat' });
 
-class ChatContainer extends Component {
+class ChatContainer extends Component { // eslint-disable-line react/prefer-stateless-function
   render() {
+    console.log(this.props);
     return (
       <div>
         Chat Container
+        {this.props.messages}
         <Chat {...this.props} socket={socket} />
       </div>
     );
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    messages: state.messages.data,
-    user: state.auth.user,
-    typing: state.typers,
-  };
-}
+// mapStateToProps :: {State} -> {Props}
+const mapStateToProps = (state) => ({
+  messages: state.ChatReducer.data,
+  isTyping: state.ChatReducer.isTyping,
+});
 
-// export default connect(mapStateToProps)(ChatContainer)
+// mapDispatchToProps :: Dispatch -> {Action}
+const mapDispatchToProps = (dispatch) => ({
+  actions: bindActionCreators(
+    ChatActionCreators,
+    dispatch,
+  ),
+});
 
-export default cssModules(ChatContainer, styles);
+const Container = cssModules(ChatContainer, styles);
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Container);

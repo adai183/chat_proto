@@ -2,7 +2,7 @@ import { ADD_MESSAGE, RECEIVE_MESSAGE, TYPING, STOP_TYPING } from './constants';
 
 export const initialState = {
   data: [],
-  typing: false,
+  isTyping: false,
 };
 export default function ChatReducer(state = initialState, action) {
   switch (action.type) {
@@ -16,11 +16,11 @@ export default function ChatReducer(state = initialState, action) {
       };
     case TYPING:
       return { ...state,
-        typing: true,
+        isTyping: true,
       };
     case STOP_TYPING:
       return { ...state,
-        typing: false,
+        isTyping: false,
       };
     default:
       return state;

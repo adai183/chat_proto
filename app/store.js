@@ -5,14 +5,8 @@ import { browserHistory } from 'react-router';
 import createLogger from 'redux-logger';
 import rootReducer from './reducers';
 
-import { initialState as chat } from './containers/ChatContainer/reducer';
-
 const isClient = typeof document !== 'undefined';
 // const isDeveloping = process.env.NODE_ENV !== 'production';
-
-const initialState = {
-  chat,
-};
 
 /* Commonly used middlewares and enhancers */
 /* See: http://redux.js.org/docs/advanced/Middleware.html*/
@@ -22,7 +16,6 @@ const middlewares = [thunk, routingMiddleware];
 
 // take this out in production env !!!
 middlewares.push(loggerMiddleware);
-
 
 /* Everyone should use redux dev tools */
 /* https://github.com/gaearon/redux-devtools */
