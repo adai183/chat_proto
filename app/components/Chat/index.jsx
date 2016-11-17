@@ -9,7 +9,7 @@ class Chat extends Component {
   static propTypes = {
     socket: PropTypes.object.isRequired, //eslint-disable-line
   };
-  constructor(props, context) {
+  constructor (props, context) {
     super(props, context);
   }
   componentDidMount() {
@@ -40,13 +40,23 @@ class Chat extends Component {
     if (newMessage.text.length !== 0) {
       console.log('New onSave event. When should we save to Mongo?');
       console.log(newMessage);
+      console.log(this.props.actions.addMessage(newMessage));
     }
   }
   render() {
-    const { socket } = this.props;
+    const { socket, messages } = this.props;
     return (
       <div>
-        Chat
+        {
+          messages.map((message, i) =>
+            <li key={i}>
+              <span>
+                <b style={{ color: '#66c' }}>{message.user}</b>
+                <i style={{ color: '#aad', opacity: '0.8' }}>{message.time}</i>
+              </span>
+              <div style={{ clear: 'both', paddingTop: '0.1em', marginTop: '-1px', paddingBottom: '0.3em' }}>{ message.text }</div>
+            </li>,
+        )}
         <MessageComposer socket={socket} user={user} onSave={::this.handleSave} />
       </div>
     );
