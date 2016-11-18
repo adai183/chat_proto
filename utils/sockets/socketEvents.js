@@ -21,11 +21,15 @@ exports = module.exports = function(io) {
     socket.on('new channel', function(channel) {
       socket.broadcast.emit('new channel', channel)
     });
-    socket.on('typing', function (data) {
-      socket.broadcast.to(data.channel).emit('typing bc', data.user);
+    socket.on('typing', function (user) {
+      console.log(console.log(`${user} is typing`));
+      socket.broadcast.emit('typing bc', user);
+      // socket.broadcast.to(data.channel).emit('typing bc', user);
     });
-    socket.on('stop typing', function (data) {
-      socket.broadcast.to(data.channel).emit('stop typing bc', data.user);
+    socket.on('stop typing', function (user) {
+      console.log(console.log(`${user} stopped typing`));
+      socket.broadcast.emit('stop typing bc', user);
+      // socket.broadcast.to(data.channel).emit('stop typing bc', user);
     });
     socket.on('new private channel', function(socketID, channel) {
       socket.broadcast.to(socketID).emit('receive private channel', channel);

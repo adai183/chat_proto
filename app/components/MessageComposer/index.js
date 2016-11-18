@@ -17,6 +17,8 @@ class MessageComposer extends Component {
       text: '',
       typing: false,
     };
+    // timer for is typing state
+    this.timer = null;
   }
   handleSubmit(event) {
     const { user, socket } = this.props;
@@ -30,22 +32,28 @@ class MessageComposer extends Component {
         time: moment.utc().format('lll'),
       };
       socket.emit('new message', newMessage);
-      // socket.emit('stop typing', { user });
       this.props.onSave(newMessage);
       this.setState({ text: '', typing: false });
+      console.log('stopped typing');
+      socket.emit('stop typing', user);
     }
   }
   handleChange(event) {
     const { socket, user } = this.props;
     this.setState({ text: event.target.value });
-    if (event.target.value.length > 0 && !this.state.typing) {
-      socket.emit('typing', { user });
+    clearTimeout(this.timer);
+
+    if (!this.state.typing) {
       this.setState({ typing: true });
+      console.log('typing');
+      socket.emit('typing', user);
     }
-    if (event.target.value.length === 0 && this.state.typing) {
-      socket.emit('stop typing', { user });
+
+    this.timer = setTimeout(() => {
+      console.log('stopped typing');
+      socket.emit('stop typing', user);
       this.setState({ typing: false });
-    }
+    }, 1000);
   }
   render() {
     return (
@@ -53,7 +61,7 @@ class MessageComposer extends Component {
         <input
           type="textarea"
           name="message"
-          ref={"messageComposer"}
+          ref={'messageComposer'}
           autoFocus="true"
           placeholder="Type here to chat!"
           value={this.state.text}
